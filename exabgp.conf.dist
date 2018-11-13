@@ -1,0 +1,27 @@
+process bgp-to-syslog {
+	encoder text;
+	run bgp2syslog.py;
+}	
+
+neighbor xxx.xxx.xxx.xxx {
+	description "";
+	router-id xxx.xxx.xxx.xxx;
+	local-address xxx.xxx.xxx.xxx;
+	local-as xxxxx;
+	peer-as xxxxx;
+	hold-time 180;
+
+	family {
+		ipv4 unicast;
+		ipv6 unicast;
+	}
+
+	api {
+		processes [ bgp-to-syslog ];
+		neighbor-changes;
+		receive {
+			parsed;
+			update;
+		}
+	}
+}
